@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project device="bluegecko">
+    <gatt out="gatt_db.c" header="gatt_db.h" prefix="gattdb_">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </gatt>
+</project>
+
