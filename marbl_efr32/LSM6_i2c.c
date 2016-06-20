@@ -151,8 +151,8 @@ void LSM6readGyro(void)
 {
 	uint8_t data[6];
 	//uint8_t data = 0;
-	//LSM6Read(OUTZ_L_XL, &data);
-	LSM6RequestFrom(OUTX_L_G, 6, data);
+	LSM6Read(OUTZ_L_XL, data);
+	//LSM6RequestFrom(OUTX_L_G, 6, data);
 	//	Wire.beginTransmission(address);
 	//	// automatic increment of register address is enabled by default (IF_INC in CTRL3_C)
 	//	Wire.write(OUTX_L_G);

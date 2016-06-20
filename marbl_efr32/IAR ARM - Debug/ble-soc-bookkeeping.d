@@ -1,1 +1,1 @@
-ble-soc-bookkeeping.o: C:\Users\mfonk\SimplicityStudio\v3_workspace\marbl_efr32-standalone-radio-config\ble-soc-bookkeeping.c
+ble-soc-bookkeeping.o: C:\Users\mfonk\git\marbl\marbl_efr32\ble-soc-bookkeeping.c
