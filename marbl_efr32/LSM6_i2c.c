@@ -6,21 +6,21 @@
  */
 
 #include "LSM6_i2c.h"
+#include "i2c_universal.h"
 #include <math.h>
 
 // Defines ////////////////////////////////////////////////////////////////
 
 // The Arduino two-wire interface uses a 7-bit number for the address,
 // and sets the last bit correctly based on reads and writes
-#define DS33_ADDRESS  0x6A << 1//01101010B
 
-#define TEST_REG_ERROR 		-1
-#define TEST_REG_SUCCESS 	1
+
+
 
 #define DS33_WHO_ID    	0x69 << 8
 
-#define LSM6_PORT 		gpioPortD
-#define LSM6_PIN		14
+#define LSM6_PORT 		gpioPortB
+#define LSM6_PIN		13
 
 static vector a; // accelerometer readings
 static vector g; // gyro readings
@@ -32,13 +32,13 @@ static uint8_t _address;
 
 static uint16_t io_timeout;
 static bool did_timeout;
-static I2C_TypeDef *i2c;
+
 // Public Methods //////////////////////////////////////////////////////////////
 
-bool LSM6init()
+bool LSM6init(uint8_t addr)
 {
 	LSM6enable();
-	_address = DS33_ADDRESS;
+	_address = addr;
 	io_timeout = 0;  // 0 = no timeout
 	did_timeout = false;
 	uint8_t *data = 0;
@@ -213,95 +213,7 @@ void LSM6readAll(void)
 	LSM6readGyro();
 }
 
-int8_t LSM6RequestFrom(enum regAddr reg, uint8_t length, uint8_t *data)
-{
-	uint8_t *read_data;
-	for(uint8_t i = 0; i < length; i++)
-	{
-		if(TEST_REG_ERROR == LSM6Read(reg + i, &(read_data[i])))
-				return TEST_REG_ERROR;
-	}
-	data = read_data;
-	return TEST_REG_SUCCESS;
-}
-
-int8_t LSM6Read(uint8_t reg, uint8_t *data)
-{
-	I2C_TransferSeq_TypeDef    seq;
-	I2C_TransferReturn_TypeDef ret;
-	uint8_t                    i2c_read_data[1];
-
-	/* Unused parameter */
-	(void) i2c;
-
-	seq.addr  = _address;
-	seq.flags = I2C_FLAG_WRITE_READ;
-	/* Select command to issue */
-	seq.buf[0].data   = &reg;
-	seq.buf[0].len    = 1;
-
-	/* Select location/length of data to be read */
-	seq.buf[1].data = i2c_read_data;
-	seq.buf[1].len  = 1;
-
-	ret = I2CDRV_Transfer(&seq);
-	if (ret != i2cTransferDone)
-	{
-		return TEST_REG_ERROR;
-	}
-	else
-	{
-		*data = (uint32_t)i2c_read_data[0]; //((uint32_t) i2c_read_data[0] << 8) + ((uint32_t)i2c_read_data[1] & 0xfc);
-		return TEST_REG_SUCCESS;
-	}
-}
 
 
-int8_t LSM6Write(enum regAddr reg, uint8_t *data, int16_t length)
-{
-	I2C_TransferSeq_TypeDef    seq;
-	I2C_TransferReturn_TypeDef ret;
 
-	/* Unused parameter */
-	(void) i2c;
-
-	seq.addr  = _address;
-	seq.flags = I2C_FLAG_WRITE;
-	/* Select command to issue */
-	for(int8_t i = length; i >= 0; i--)
-	{
-		data[i] = data[i-1];
-	}
-	data[0] = (uint8_t)reg;
-	seq.buf[0].data   = data;
-	seq.buf[0].len    = length + 1;
-
-	/* Select location/length of data to be read */
-	seq.buf[1].data = 0;
-	seq.buf[1].len  = 0;
-
-	ret = I2CDRV_Transfer(&seq);
-	if (ret != i2cTransferDone)
-	{
-		return TEST_REG_ERROR;
-	}
-	else
-	{
-		return TEST_REG_SUCCESS;
-	}
-}
-
-I2C_TransferReturn_TypeDef I2CDRV_Transfer(I2C_TransferSeq_TypeDef *seq)
-{
-	I2C_TransferReturn_TypeDef ret;
-	/* Do a polled transfer */
-	ret = I2C_TransferInit(I2C0, seq);
-
-	while (ret == i2cTransferInProgress)
-	{
-		//GPIO_PinOutSet(gpioPortD, 13);
-		ret = I2C_Transfer(I2C0);
-	}
-	return(ret);
-}
 

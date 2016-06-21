@@ -26,7 +26,7 @@
 #include "i2cspm.h"
 #include "si7013.h"
 #include "tempsens.h"
-#include "LSM6_i2c.h"
+#include "i2c_universal.h"
 #endif /* !HOST */
 
 #include "app_ui.h"
@@ -84,8 +84,8 @@ static void appBtnCback(AppUiBtnEvt_t btn);
 void appHwInit(void)
 {
   //appUiBlinkLed();
-  LSM6init();
-  LSM6readGyro();
+	initSensors(DS33_ADDR, MPR121_ADDR);
+  //LSM6readGyro();
 
 }
 

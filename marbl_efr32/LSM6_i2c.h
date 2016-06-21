@@ -102,7 +102,7 @@ typedef struct LSM6
 };
     void LSM6(void);
 
-    bool LSM6init();
+    bool LSM6init(uint8_t addr);
 
     void LSM6enableDefault(void);
 
@@ -128,9 +128,6 @@ typedef struct LSM6
     double dot_product(vector *u, vector *v);
     vector * cross_product(vector *u, vector *v);
     //int16_t LSM6testReg(enum regAddr reg);
-    int8_t LSM6RequestFrom(enum regAddr reg, uint8_t length, uint8_t *data);
-    int8_t LSM6Read(uint8_t reg, uint8_t *data);
-    int8_t LSM6Write(enum regAddr reg, uint8_t *data, int16_t length);
-    I2C_TransferReturn_TypeDef I2CDRV_Transfer(I2C_TransferSeq_TypeDef *seq);
+
 
 #endif /* LSM6_I2C_H_ */
