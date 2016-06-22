@@ -36,11 +36,6 @@
 			<locationURI>STUDIO_SDK_LOC/sdk/plugins/app/app.c</locationURI>
 		</link>
 		<link>
-			<name>app/app_cfg.c</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/sdk/plugins/app/app_cfg.c</locationURI>
-		</link>
-		<link>
 			<name>code-correlation/bsp_trace.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/modules/kits/common/bsp/bsp_trace.c</locationURI>
