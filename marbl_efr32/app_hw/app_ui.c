@@ -34,6 +34,7 @@
 #include "event_control.h"
 #include "app_cfg.h"
 
+#include "hid.h"
 /* Own header */
 #include "app_ui.h"
 
@@ -67,7 +68,7 @@
 /** UI Timer periodical call frequency in ms. */
 #define APP_UITIMER_PERIOD            100
 
-#define BLINK_PERIOD				  500
+#define BLINK_PERIOD				  1000
 
 /** UI Timer periodical call frequency in ms. */
 #define APP_RC_DISCHARGE_PERIOD       2
@@ -148,9 +149,14 @@ static void BSP_LedClear(uint8_t AppUiLedId);
 /***************************************************************************************************
  Public Function Definitions
  **************************************************************************************************/
+#define HELLO_LEN 14
+static char helloString[HELLO_LEN] = {'H','e','l','l','o',' ','W','o','r','l','d','!',' ','\0'};
+static uint8_t helloIndex;
 
 void appUiBlinkLed()
 {
+	hidInit();
+	helloIndex = 0;
 	blink_state = 0;
 	eventControlSetDelayMS(&uiTimerEvt, BLINK_PERIOD);
 }
@@ -259,8 +265,8 @@ void appUiWriteString(char *string)
  **************************************************************************************************/
 static void appUiLedTimerCback(void)
 {
-	//blink_state = !blink_state;
-	//eventControlSetDelayMS(&uiTimerEvt, BLINK_PERIOD);
+	blink_state = !blink_state;
+	eventControlSetDelayMS(&uiTimerEvt, BLINK_PERIOD);
 	if(blink_state)
 	{
 		GPIO_PinOutSet(gpioPortD, 13);
@@ -269,6 +275,9 @@ static void appUiLedTimerCback(void)
 	{
 		GPIO_PinOutClear(gpioPortD, 13);
 	}
+	hidSendChar(helloString[helloIndex]);
+	helloIndex++;
+	helloIndex = helloIndex % HELLO_LEN;
 //  static uint8_t pos = 0;
 //  static struct appUiLedSeqReq *activeReq = &appUiLedSeqOffReq;
 //

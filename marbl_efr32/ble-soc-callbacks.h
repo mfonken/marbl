@@ -11,6 +11,18 @@
 #include <stdbool.h>
 
 
+/***********************************************************************************************//**
+ *  \brief  Advertising started.
+ *  \details  This function is called by the advertising plugin after advertising has been started.
+ **************************************************************************************************/
+void emberAfPluginAdvertisingStartedCallback(void);
+
+/***********************************************************************************************//**
+ *  \brief  Advertising stopped.
+ *  \details  This function is called by the advertising plugin after advertising has been stopped.
+ **************************************************************************************************/
+void emberAfPluginAdvertisingStoppedCallback(void);
+
 /** @brief Reset
  *
  * This function is called by the app_cfg plugin after a Reset event was detected. 
@@ -18,6 +30,42 @@
  * @param None.
  */
 void emberAfPluginResetEventCallback(void);
+
+/***********************************************************************************************//**
+ *  \brief  Connection started.
+ *  \details  This function is called by the app_cfg plugin after a a connection is made.
+ **************************************************************************************************/
+void emberAfPluginConnectionOpenedEventCallback(void);
+
+/***********************************************************************************************//**
+ *  \brief  Connection terminated.
+ *  \details  This function is called by the app_cfg plugin after a a connection is termninated.
+ **************************************************************************************************/
+void emberAfPluginConnectionTerminatedEventCallback(void);
+
+/***********************************************************************************************//**
+ *  \brief  Connection parameters.
+ *  \details  This function is called by the app_cfg plugin after a a connection is opened or its
+ *  parameters are changed.
+ *  \param[in]  connection  ConnectionId.
+ *  \param[in]  interval  Interval.
+ *  \param[in]  latency  Latency.
+ *  \param[in]  timeout  Timeout.
+ *  \param[in]  security_mode  Security mode.
+ **************************************************************************************************/
+void emberAfPluginConnectionParametersEventCallback(uint8_t connection,
+                                                    uint16_t interval,
+                                                    uint16_t latency,
+                                                    uint16_t timeout,
+                                                    uint8_t security_mode);
+
+/***********************************************************************************************//**
+ *  \brief  A characer is about to be sent out.
+ *  \details  This function is called by the HID plugin before it is sending a new character over
+ *  BT.
+ *  \param  CharCode  ASCII code of character to be sent.
+ **************************************************************************************************/
+void emberAfPluginHidSendNewCharCallback(uint8_t CharCode);
 
 /***********************************************************************************************//**
  *  \brief  Ok To Sleep.

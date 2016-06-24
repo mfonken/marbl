@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project device="bluegecko">
+    <gatt out="gatt_db.c" header="gatt_db.h" prefix="gattdb_">
+        <service uuid="1800">
+            <description>Generic Access Profile</description>
+            <!-- Device Name -->
+            <characteristic uuid="2a00" id="device_name">
+                <properties read="true" write="true"/>
+                <value>BG00000</value>
+            </characteristic>
+            <!-- Appearance -->
+            <characteristic uuid="2a01">
+                <properties read="true" const="true" />
+                <value type="hex">0</value>
+            </characteristic>
+        </service>
+        <service type="primary" uuid="180A">
+            <description>Device Information</description>
+                        <!-- Manufacturer Name String -->
+            <characteristic uuid="2A29">
+                <properties read="true" const="true" />
+                <value>Silicon Labs</value>
+            </characteristic>
+                        <!-- Model Number String -->
+            <characteristic uuid="2A24">
+                <properties read="true" const="true" />
+                <value>1.0</value>
+            </characteristic>
+                        <!-- Serial Number String -->
+            <characteristic uuid="2A25">
+                <properties read="true" const="true" />
+                <value>ffff</value>
+            </characteristic>
+                        <!-- Hardware Revision String -->
+            <characteristic uuid="2A27">
+                <properties read="true" const="true" />
+                <value>ffff</value>
+            </characteristic>
+                        <!-- Firmware Revision String -->
+            <characteristic uuid="2A26">
+                <properties read="true" const="true" />
+                <value>ffff</value>
+            </characteristic>
+                        <!-- Software Revision String -->
+            <characteristic uuid="2A28">
+                <properties read="true" const="true" />
+                <value>ffff</value>
+            </characteristic>
+                        <!-- System ID -->
+            <characteristic uuid="2A23">
+                <properties read="true" const="true" />
+                <!-- 5 byte Manufacturer Identifier + 3 byte
+                Organizationally Unique Identifier -->
+                <value type="hex">ffffffffffffffff</value>
+            </characteristic>
+                        <!-- IEEE 11073-20601 Regulatory Certification Data List -->
+            <characteristic uuid="2A2A">
+                <properties read="true" const="true" />
+                 <value type="hex">ffff</value>
+            </characteristic>
+                        <!-- PnP ID -->
+            <characteristic uuid="2A50">
+                <properties read="true" const="true" />
+                <!-- 1 byte Vendor ID Source + 2 byte Vendor ID
+                     + 2 bytes Vendor ID + 2 byte Product Version -->
+                 <value type="hex">01ffffffffffff</value>
+            </characteristic>
+        </service>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </gatt>
+</project>
+

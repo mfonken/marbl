@@ -2,8 +2,12 @@
 //
 //
 
+// Init function declarations.
+void hidInit(void);
+
 void emberAfMainPluginsInit(void)
 {
+  hidInit();
 }
 
 // Tick function declarations.

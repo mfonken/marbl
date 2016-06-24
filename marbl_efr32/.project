@@ -26,6 +26,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>advertisement/advertisement-callback.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/sdk/plugins/features/advertisement/advertisement-callback.c</locationURI>
+		</link>
+		<link>
+			<name>advertisement/advertisement.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/sdk/plugins/features/advertisement/advertisement.c</locationURI>
+		</link>
+		<link>
 			<name>app/app-callback.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/sdk/plugins/app/app-callback.c</locationURI>
@@ -39,6 +49,16 @@
 			<name>code-correlation/bsp_trace.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/modules/kits/common/bsp/bsp_trace.c</locationURI>
+		</link>
+		<link>
+			<name>connection/connection-callback.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/sdk/plugins/features/connection/connection-callback.c</locationURI>
+		</link>
+		<link>
+			<name>connection/connection.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/sdk/plugins/features/connection/connection.c</locationURI>
 		</link>
 		<link>
 			<name>idle-sleep/idle-sleep.c</name>

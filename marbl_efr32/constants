@@ -1,0 +1,8 @@
+device_name 3
+hid_keyboard_in 27
+hid_keyboard_out 31
+hid_keyboard_feature 34
+hid_control 41
+hid_boot_keyboard_in 43
+hid_boot_keyboard_out 46
+hid_protocol_mode 48

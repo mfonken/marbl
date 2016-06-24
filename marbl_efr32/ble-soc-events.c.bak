@@ -20,15 +20,11 @@ extern EmberEventControl advTimerEvt;
 void appUiTick(void);
 extern EmberEventControl uiTimerEvt;
 
-void hidSendKeyboardText(void);
-extern EmberEventControl hidTimerEvt;
-
 
 
 const EmberEventData emAppEvents[] = {
   {&advTimerEvt, advSetup},
   {&uiTimerEvt, appUiTick},
-  {&hidTimerEvt, hidSendKeyboardText},
   {NULL, NULL}
 };
 #endif // __BLE_SOC_EVENTS__

@@ -2,6 +2,11 @@
 //
 //
 
+// Enclosing macro to prevent multiple inclusion
+#ifndef __BLE_SOC_CALLBACKS__
+#define __BLE_SOC_CALLBACKS__
+
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -10,34 +15,33 @@
  *  \brief  Advertising started.
  *  \details  This function is called by the advertising plugin after advertising has been started.
  **************************************************************************************************/
-void emberAfPluginAdvertisingStartedCallback(void)
-{}
-
+void emberAfPluginAdvertisingStartedCallback(void);
 
 /***********************************************************************************************//**
  *  \brief  Advertising stopped.
  *  \details  This function is called by the advertising plugin after advertising has been stopped.
  **************************************************************************************************/
-void emberAfPluginAdvertisingStoppedCallback(void)
-{}
+void emberAfPluginAdvertisingStoppedCallback(void);
 
-
+/** @brief Reset
+ *
+ * This function is called by the app_cfg plugin after a Reset event was detected. 
+ *
+ * @param None.
+ */
+void emberAfPluginResetEventCallback(void);
 
 /***********************************************************************************************//**
  *  \brief  Connection started.
  *  \details  This function is called by the app_cfg plugin after a a connection is made.
  **************************************************************************************************/
-void emberAfPluginConnectionOpenedEventCallback(void)
-{}
-
+void emberAfPluginConnectionOpenedEventCallback(void);
 
 /***********************************************************************************************//**
  *  \brief  Connection terminated.
  *  \details  This function is called by the app_cfg plugin after a a connection is termninated.
  **************************************************************************************************/
-void emberAfPluginConnectionTerminatedEventCallback(void)
-{}
-
+void emberAfPluginConnectionTerminatedEventCallback(void);
 
 /***********************************************************************************************//**
  *  \brief  Connection parameters.
@@ -53,10 +57,7 @@ void emberAfPluginConnectionParametersEventCallback(uint8_t connection,
                                                     uint16_t interval,
                                                     uint16_t latency,
                                                     uint16_t timeout,
-                                                    uint8_t security_mode)
-{}
-
-
+                                                    uint8_t security_mode);
 
 /***********************************************************************************************//**
  *  \brief  Ok To Sleep.
@@ -66,58 +67,42 @@ void emberAfPluginConnectionParametersEventCallback(uint8_t connection,
  *  \param  durationMs  The maximum duration in milliseconds that the device will sleep.
  *  \return  true  if it is Ok to sleep.
  **************************************************************************************************/
-bool emberAfPluginIdleSleepOkToSleepCallback(uint32_t durationMs)
-{
-  return true;
-}
-
+bool emberAfPluginIdleSleepOkToSleepCallback(uint32_t durationMs);
 
 /***********************************************************************************************//**
  *  \brief  Wake Up.
  *  \details  This function is called by the Idle/Sleep plugin after sleeping.
  *  \param  durationMs  The duration in milliseconds that the device slept.
  **************************************************************************************************/
-void emberAfPluginIdleSleepWakeUpCallback(uint32_t durationMs)
-{
-}
-
+void emberAfPluginIdleSleepWakeUpCallback(uint32_t durationMs);
 
 /** @brief Main Stack Init on EFR32
  *
  * This function is called when the stack on the EFR32 starts and can be used to perform necessary
  * initialization required at system startup.
  */
-void emberAfMainEfr32StackInitCallback(void) {
-}
-
+void emberAfMainEfr32StackInitCallback(void);
 
 /** @brief Main Application Init on EFR32
  *
  * This function is called when the application on the EFR32 starts and can be used to perform any
  * additional initialization required at system startup.
  */
-void emberAfMainEfr32AppInitCallback(void) {
-}
-
+void emberAfMainEfr32AppInitCallback(void);
 
 /** @brief Main Stack Init on Host
  *
  * This function is called when the stack on the Host starts and can be used to perform necessary
  * initialization required at system startup.
  */
-int emberAfMainHostStackInitCallback(int argc, char* argv[]) {
-  return 0;
-}
-
+int emberAfMainHostStackInitCallback(int argc, char* argv[]);
 
 /** @brief Main Application Init on Host
  *
  * This function is called when the application on the host starts and can be used to perform any
  * additional initialization required at system startup.
  */
-void emberAfMainHostAppInitCallback(void) {
-}
-
+void emberAfMainHostAppInitCallback(void);
 
 /** @brief Main Stack Tick
  *
@@ -128,10 +113,7 @@ void emberAfMainHostAppInitCallback(void) {
  * be called until execution resumes.  On SoC platforms, sleeping and idling
  * will block.  On Unix hosts, process yielding (e.g., via select) will block.
  */
-void emberAfMainStackTickCallback(void) {
-}
-
-
+void emberAfMainStackTickCallback(void);
 
 /** @brief Main Application Tick
  *
@@ -142,7 +124,6 @@ void emberAfMainStackTickCallback(void) {
  * be called until execution resumes.  On SoC platforms, sleeping and idling
  * will block.  On Unix hosts, process yielding (e.g., via select) will block.
  */
-void emberAfMainAppTickCallback(void) {
-}
+void emberAfMainAppTickCallback(void);
 
-
+#endif // __BLE_SOC_CALLBACKS__

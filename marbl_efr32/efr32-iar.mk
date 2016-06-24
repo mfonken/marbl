@@ -132,9 +132,13 @@ INCLUDEPATHS += \
   -I. \
   -I./inc \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/modules/emlib/inc \
+  -Idrivers \
+  -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/advertisement \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/app \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/app_hw \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/framework-soc/plugins/app_hw \
+  -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/connection \
+  -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/hid \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/platform \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/framework-soc/plugins/platform_hw \
   -I../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/modules/CMSIS/Include \
@@ -167,7 +171,7 @@ INCLUDEPATHS += \
 ####################################################################
 
 GATTDB_PROJ = \
-C:\Users\mfonk\SimplicityStudio\v3_workspace\marbl_efr32-standalone-radio-config\.\ble-soc-gattdb.bgproj
+C:\Users\mfonk\git\marbl\marbl_efr32\.\ble-soc-gattdb.bgproj
 
 GATTDB_SRC = \
 gatt_db.c
@@ -189,6 +193,11 @@ $(GATTDB_SRC) \
   ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/app/app_cfg.c \
   ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/app_hw/app_hw.c \
   ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/app_hw/graphics-efr32.c \
+  ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/advertisement/advertisement-callback.c \
+  ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/advertisement/advertisement.c \
+  ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/connection/connection-callback.c \
+  ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/connection/connection.c \
+  ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/features/hid/hid.c \
   ../../../../../SiliconLabs/BluetoothSmartSDK/1.0.2.0-GA/sdk/plugins/platform/event_control.c \
   ble-soc-bookkeeping.c \
   ble-soc-callback-stubs.c \

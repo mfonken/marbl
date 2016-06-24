@@ -2,12 +2,8 @@
 //
 //
 
-// Init function declarations.
-void BSP_TraceProfilerSetup(void);
-
 void emberAfMainPluginsInit(void)
 {
-  BSP_TraceProfilerSetup();
 }
 
 // Tick function declarations.
