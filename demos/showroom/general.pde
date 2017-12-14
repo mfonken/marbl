@@ -1,12 +1,34 @@
 boolean locked = false;
 float ROTATION_SENSITIVITY = 0.001;
-int x_lock = 0, y_lock = 0;
+int x_mouse_lock = 0, y_mouse_lock = 0;
 
 float [] rot_pre = { PI*5/13, 0, PI/4 };
 float [] rot = { PI*5/13, 0, PI/4 };
 
 int state = 0;
 int max_state = 1000;
+
+float p_angle_start = 0, p_angle_end = 60;
+float p_inc = (p_angle_end - p_angle_start) * PI/180 * 2;
+float r_angle_start = -45, r_angle_end = 45;
+float r_inc = (r_angle_end - r_angle_start) * PI/180 * 2;
+float w_angle_start = -45, w_angle_end = 45;
+float w_inc = (w_angle_end - w_angle_start) * PI/180 * 2;
+
+void initGeneral() {
+  p = p_angle_start * PI/180;
+  r = r_angle_start * PI/180;
+  w = w_angle_start * PI/180;
+  
+  textSize(36);
+}
+
+void updateAll() {
+  translate( x, y, z );
+  rotateZ(-w + HALF_PI);
+  rotateY(-p + HALF_PI);
+  rotateX(-r); 
+}
 
 void center() {
   translate(width/2, (height-footer_height)*4/13, -1500);
@@ -16,19 +38,19 @@ void center() {
 
 void mousePressed() {
   locked = true;
-  x_lock = mouseX;
-  y_lock = mouseY;
+  x_mouse_lock = mouseX;
+  y_mouse_lock = mouseY;
 }
 
 void mouseDragged() {
   if (locked) {
-    float x_diff = (float)(mouseX - x_lock);
-    float y_diff = (float)(mouseY - y_lock);
+    float x_diff = (float)(mouseX - x_mouse_lock);
+    float y_diff = (float)(mouseY - y_mouse_lock);
     rot[2] = rot_pre[2] + x_diff*ROTATION_SENSITIVITY; 
     rot[0] = rot_pre[0] + y_diff*ROTATION_SENSITIVITY;
 
     stroke(245);
-    line(x_lock, y_lock, mouseX, mouseY);
+    line(x_mouse_lock, y_mouse_lock, mouseX, mouseY);
   }
 }
 

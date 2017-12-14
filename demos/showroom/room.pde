@@ -1,20 +1,28 @@
 PShape wall1, wall2, floor;
 PImage woodImg;
-PImage wallImg;
-int roomX = 1000;
-int roomY = 1000;
-int roomZ = 700;
+PImage wall1Img, wall2Img;
 
 void initRoom() {
   noStroke();
   woodImg = loadImage("dark_wood.jpg");
-  wallImg = loadImage("light_wall.jpg");
+  wall1Img = loadImage("concrete_a.jpg");
+  wall2Img = loadImage("concrete_a.jpg");
   wall1 = createShape(RECT, 0, 0, roomX, roomZ);
-  wall1.setTexture(wallImg);
+  wall1.setTexture(wall1Img);
   wall2 = createShape(RECT, 0, 0, roomY, roomZ);
-  wall2.setTexture(wallImg);
+  wall2.setTexture(wall2Img);
   floor = createShape(RECT, 0, 0, roomX, roomY);
   floor.setTexture(woodImg);
+}
+
+void centerInRoom() {
+  center();
+  translate(roomX/2, roomY/2, roomZ/2);
+}
+
+void centerOnBeaconA() {
+  center();
+  translate(Ax, Ay, Az);
 }
 
 void drawRoom() {
