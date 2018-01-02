@@ -26,6 +26,4 @@ void draw() {
   
   drawBall();
   drawDevice();
-   
-  
 }

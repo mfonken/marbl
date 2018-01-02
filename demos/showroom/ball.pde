@@ -8,6 +8,8 @@ float theta;
 float x = 0, y = 0, z = 0;
 float p = 0, r = 0, w = 0;
 
+float w_offset = 0;
+
 void initBall() {
   noStroke();
   ballImg = loadImage("red_orange.jpg");

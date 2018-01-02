@@ -36,6 +36,13 @@ void center() {
   rotateZ(rot[2]);
 }
 
+void keyReleased() {
+  if (key == ' ') {
+    w_offset = w_n;
+    println("Yaw Offset is " + w_offset);
+  }
+}
+
 void mousePressed() {
   locked = true;
   x_mouse_lock = mouseX;
