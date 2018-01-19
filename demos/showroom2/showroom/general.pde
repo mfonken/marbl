@@ -15,21 +15,16 @@ float r_inc = (r_angle_end - r_angle_start) * PI/180 * 2;
 float w_angle_start = -45, w_angle_end = 45;
 float w_inc = (w_angle_end - w_angle_start) * PI/180 * 2;
 
+float w_offset = 0;
+
 void initGeneral() {
-  p = p_angle_start * PI/180;
-  r = r_angle_start * PI/180;
-  w = w_angle_start * PI/180;
+  RwEst[0] = p_angle_start * PI/180;
+  RwEst[1] = r_angle_start * PI/180;
+  RwEst[2] = w_angle_start * PI/180;
   
   textSize(36);
 }
 
-void updateAll() {
-  translate( (float)x, (float)y, (float)z );
-  rotateZ((float)(-w + HALF_PI));
-  rotateX((float)(-r)); 
-  rotateY((float)(-p + HALF_PI));
-  
-}
 
 void center() {
   translate(width/2, (height-footer_height)*4/13, -1500);
@@ -39,7 +34,7 @@ void center() {
 
 void keyReleased() {
   if (key == ' ') {
-    w_offset = (float)w_n;
+    w_offset = RwEst[0];
     println("Yaw Offset is " + w_offset);
   }
 }

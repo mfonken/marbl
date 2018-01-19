@@ -15,7 +15,7 @@ int Ax, Ay, Az, Bx, By;
 
 void initBeacons() {
   noStroke();
-  beaconImg = loadImage("red_orange.jpg");
+  beaconImg = loadImage("data/red_orange.jpg");
   beaconA = createShape(SPHERE, beacon_radius); 
   beaconB = createShape(SPHERE, beacon_radius); 
   beaconA.setTexture(beaconImg);

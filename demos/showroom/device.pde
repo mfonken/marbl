@@ -58,12 +58,12 @@ void drawCoordinateLines() {
   center();
   translate(Ax, Ay, Az);
   stroke(255, 100, 200);
-  line(0, 0, 0, x, 0, 0); 
+  line(0, 0, 0, (float)x, 0, 0); 
 
   stroke(200, 255, 100);
-  line(x, y, 0, x, 0, 0); 
+  line((float)x, (float)y, 0, (float)x, 0, 0); 
 
   stroke(100, 200, 255);
-  line(x, y, 0, x, y, z); 
+  line((float)x, (float)y, 0, (float)x, (float)y, (float)z); 
   popMatrix();
 }
