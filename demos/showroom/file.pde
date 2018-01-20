@@ -3,7 +3,11 @@ BufferedReader reader;
 char file_id = ' ';
 double [] file_values = new double[10];
 
-float CM_TO_PIXELS = UNITS_TO_PIXELS/100;
+double CM_TO_PIXELS = UNITS_TO_PIXELS/100;
+
+double p_n, r_n, w_n, x_n, y_n, z_n;
+
+float ts = 0, nts = 0, fr = 0;
 
 void readFile() {
   reader = createReader("/Users/matthewfonken/Desktop/out.txt"); 
@@ -17,6 +21,12 @@ void readFile() {
       file_id = values[0].charAt(0);
       if (file_id == 'f') {
         assignFileValues(values);
+        nts = millis();
+        fr = 1000/(nts - ts);
+        stroke(255);
+        textSize(18);
+        text(str(fr).substring(0, 2) + " FPS", 0, 18);
+        ts = nts;
       }
     }
   } 
@@ -26,21 +36,28 @@ void readFile() {
 }
 
 void assignFileValues(String[] values) {
-  p = float(trim(values[1])) + HALF_PI;
-  r = float(trim(values[2]));
-  w = float(trim(values[3]));
+  p_n = float(trim(values[1])) + HALF_PI;
+  r_n = float(trim(values[2]));
+  w_n = float(trim(values[3]));// - w_offset;
 
-  x = float(trim(values[5]));
-  y = float(trim(values[4]));
-  z = float(trim(values[6]));
+  x_n = (double)float(trim(values[5])) * CM_TO_PIXELS;
+  y_n = (double)float(trim(values[4])) * CM_TO_PIXELS;
+  z_n = (double)float(trim(values[6])) * CM_TO_PIXELS;
+
+  p = smooth(p_n, p);
+  r = smooth(r_n, r);
+  w = smooth(w_n, w);// + QUARTER_PI;
+  x = smooth(x_n, x);
+  y = smooth(y_n, y);
+  z = smooth(z_n, z);
+}
+
+double smooth(double a, double b) {
+  if(Double.isNaN(a)) a = 100;
+  if(Double.isNaN(b)) b = 100;
+  return (a+b)/2;
   
-  x *= CM_TO_PIXELS;
-  y *= CM_TO_PIXELS;
-  z *= CM_TO_PIXELS;
-  
-  x += Ax;
-  y += Ay;
-  z += Az;
+  //return a;
 }
 
 void printA( String[] a) {

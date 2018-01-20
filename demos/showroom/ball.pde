@@ -5,12 +5,14 @@ PImage ballImg;
 float pos_scale = 30;
 
 float theta;
-float x = 0, y = 0, z = 0;
-float p = 0, r = 0, w = 0;
+double x = 0, y = 0, z = 0;
+double p = 0, r = 0, w = 0;
+
+float w_offset = 0;
 
 void initBall() {
   noStroke();
-  ballImg = loadImage("red_orange.jpg");
+  ballImg = loadImage("data/red_orange.jpg");
   ball = createShape(SPHERE, ball_radius); 
   ball.setTexture(ballImg);
 }
