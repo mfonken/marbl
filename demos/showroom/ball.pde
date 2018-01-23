@@ -12,7 +12,7 @@ float w_offset = 0;
 
 void initBall() {
   noStroke();
-  ballImg = loadImage("data/red_orange.jpg");
+  ballImg = loadImage("red_orange.jpg");
   ball = createShape(SPHERE, ball_radius); 
   ball.setTexture(ballImg);
 }

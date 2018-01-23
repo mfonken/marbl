@@ -4,9 +4,9 @@ PImage wall1Img, wall2Img;
 
 void initRoom() {
   noStroke();
-  woodImg = loadImage("data/dark_wood.jpg");
-  wall1Img = loadImage("data/concrete_a.jpg");
-  wall2Img = loadImage("data/concrete_a.jpg");
+  woodImg = loadImage("dark_wood.jpg");
+  wall1Img = loadImage("concrete_a.jpg");
+  wall2Img = loadImage("concrete_a.jpg");
   wall1 = createShape(RECT, 0, 0, roomX, roomZ);
   wall1.setTexture(wall1Img);
   wall2 = createShape(RECT, 0, 0, roomY, roomZ);

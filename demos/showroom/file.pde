@@ -22,7 +22,10 @@ void readFile() {
       if (file_id == 'f') {
         assignFileValues(values);
         nts = millis();
-        fr = 1000/(nts - ts);
+        if((nts % 30) == 0)
+        {
+          fr = 1000/(nts - ts);
+        }
         stroke(255);
         textSize(18);
         text(str(fr).substring(0, 2) + " FPS", 0, 18);
