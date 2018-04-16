@@ -26,7 +26,7 @@ void drawStylus( int sides, float r, float h)
   for (int i = 0; i < sides; i++) {
     float x = cos( radians( i * angle ) ) * r;
     float y = sin( radians( i * angle ) ) * r;
-    vertex( -point*x, y, x);
+    vertex( -point*x, y, x );
   }
   endShape(CLOSE);
   // bottom
@@ -35,7 +35,7 @@ void drawStylus( int sides, float r, float h)
   for (int i = 0; i < sides; i++) {
     float x = cos( radians( i * angle ) ) * r;
     float y = sin( radians( i * angle ) ) * r;
-    vertex( h, y, x);
+    vertex( h, y, x );
   }
   endShape(CLOSE);
   // draw body

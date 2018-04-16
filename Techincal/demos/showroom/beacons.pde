@@ -3,7 +3,7 @@ int beacon_radius = 20;
 color beacon_color = color(255, 0, 0);//, 55);
 PImage beaconImg;
 
-color case_color = color(155,150,155);
+color case_color = color(155, 150, 155);
 int case_radius = 30, case_height = 60;
 
 float UNITS_TO_PIXELS = 4000;
@@ -34,7 +34,7 @@ void drawBeacons() {
   center();
   translate(Ax, Ay, case_height/2);
   drawCase(10, case_radius, beacons_distance, case_height);
-  translate(0,0,Az - case_height/2);
+  translate(0, 0, Az - case_height/2);
   rotateZ(PI);
   shape(beaconA);
   rotateZ(-PI);
@@ -52,64 +52,79 @@ void drawCase( int sides, float r, int w, float h)
   pushMatrix();
   float angle = -180 / sides;
   float halfHeight = h / 2;
+  float x1, y1, x2, y2, ra;
+  noStroke();
+  fill(case_color);
+
+  stroke(15);
+  // Right Bottom Semi
   beginShape();
   for (int i = 0; i < sides; i++) {
-    float x = cos( radians( i * angle ) ) * r;
-    float y = sin( radians( i * angle ) ) * r;
-    vertex( x, y, -halfHeight);
+    ra = radians( i * angle );
+    x1 = cos( ra ) * r;
+    y1 = sin( ra ) * r;
+    vertex( x1, y1, -halfHeight);
   }
   endShape();
+
+  // Right Top Semi
   beginShape();
   for (int i = 0; i < sides; i++) {
-    float x = cos( radians( i * angle ) ) * r;
-    float y = sin( radians( i * angle ) ) * r;
-    vertex( x, y, halfHeight);
-  }
-  endShape(CLOSE);
-  noStroke();
-  beginShape(TRIANGLE_STRIP);
-  for (int i = 0; i < sides + 1; i++) {
-    float x1 = cos( radians( i * angle ) ) * r;
-    float y1 = sin( radians( i * angle ) ) * r;
-    float x2 = cos( radians( i * angle ) ) * r;
-    float y2 = sin( radians( i * angle ) ) * r;
-    vertex( x1, y1, -halfHeight);
+    ra = radians( i * angle );
+    x2 = cos( ra ) * r;
+    y2 = sin( ra ) * r;
     vertex( x2, y2, halfHeight);
   }
   endShape(CLOSE);
 
+  noStroke();
+  // Right Shell
+  beginShape(TRIANGLE_STRIP);
+  for (int i = 0; i < sides + 1; i++) {
+    ra = radians( i * angle );
+    x1 = cos( ra ) * r;
+    y1 = sin( ra ) * r;
+    vertex( x1, y1, -halfHeight);
+    vertex( x1, y1, halfHeight);
+  }
+  endShape(CLOSE);
+ 
   stroke(15);
   translate(0, w/2, 0);
   box(r*2,w,h);
   translate(0, w/2, 0);
 
+  // Left Bottom Semi
   beginShape();
   for (int i = 0; i < sides; i++) {
-    float x = cos( radians( i * -angle ) ) * r;
-    float y = sin( radians( i * -angle ) ) * r;
-    vertex( x, y, -halfHeight);
+    ra = radians( i * -angle );
+    x1 = cos( ra ) * r;
+    y1 = sin( ra ) * r;
+    vertex( x1, y1, -halfHeight);
   }
   endShape(CLOSE);
+  
+  // Left Top Semi
   beginShape();
   for (int i = 0; i < sides; i++) {
-    float x = cos( radians( i * -angle ) ) * r;
-    float y = sin( radians( i * -angle ) ) * r;
-    vertex( x, y, halfHeight);
+    ra = radians( i * -angle );
+    x1 = cos( ra ) * r;
+    y1 = sin( ra ) * r;
+    vertex( x1, y1, halfHeight);
   }
   endShape(CLOSE);
+  
   noStroke();
+  //Left Shell
   beginShape(TRIANGLE_STRIP);
   for (int i = 0; i < sides + 1; i++) {
-    float x1 = cos( radians( i * -angle ) ) * r;
-    float y1 = sin( radians( i * -angle ) ) * r;
-    float x2 = cos( radians( i * -angle ) ) * r;
-    float y2 = sin( radians( i * -angle ) ) * r;
-    vertex( x1, y1, -halfHeight);
+    ra = radians( i * -angle );
+    x2 = cos( ra ) * r;
+    y2 = sin( ra ) * r;
+    vertex( x2, y2, -halfHeight);
     vertex( x2, y2, halfHeight);
   }
   endShape(CLOSE);
- 
+
   popMatrix();
-  
- 
 } 

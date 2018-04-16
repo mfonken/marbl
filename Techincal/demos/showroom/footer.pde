@@ -57,7 +57,7 @@ void drawFooter() {
 
 void drawFooterDial(String l, int x, float t) {
   pushMatrix();
-
+  textSize(22);
   int footer_center = height-footer_height/2, dial_radius = inner_height/2;
   translate(x, footer_center);
   rotate(-HALF_PI);
@@ -73,12 +73,9 @@ void drawFooterDial(String l, int x, float t) {
 void drawCoordinateText(int text_x, float x_l, float y_l, float z_l) {
   String x_s = str(x_l) + "00000", y_s = str(y_l) + "00000", z_s = str(z_l) + "00000";
   
-  int text_width = 280, text_end = text_x+text_width, text_y = height-footer_height/2-10;
+  int text_width = 270, text_end = text_x+text_width+6, text_y = height-footer_height/2+6;
   int digits = 6;
-  textSize(48);
-  fill(255);
-  text("(", text_x, text_y+6);
-
+  
   textSize(22);
   fill(255, 100, 200);
   text(x_s.substring(0, digits), (int)lerp(text_x, text_end, 0.05), text_y);
@@ -91,11 +88,12 @@ void drawCoordinateText(int text_x, float x_l, float y_l, float z_l) {
   fill(100, 200, 255);
   text(z_s.substring(0, digits), (int)lerp(text_x, text_end, 0.75), text_y);
 
-  textSize(48);
+  textSize(32);
   fill(255);
-  text(")", text_end, text_y+6);
+  text("(", text_x+6, text_y+2);
+  text(")", text_end+2, text_y+2);
   
-  text("X", (int)lerp(text_x, text_end, 0.12), text_y+48);
-  text("Y", (int)lerp(text_x, text_end, 0.47), text_y+48);
-  text("Z", (int)lerp(text_x, text_end, 0.82), text_y+48);
+  text("X", (int)lerp(text_x, text_end, 0.16), text_y+32);
+  text("Y", (int)lerp(text_x, text_end, 0.52), text_y+32);
+  text("Z", (int)lerp(text_x, text_end, 0.86), text_y+32);
 }
