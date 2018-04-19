@@ -1,5 +1,7 @@
 BufferedReader reader;
 
+
+char action = ACTION.INACTIVE;
 char file_id = ' ';
 double [] file_values = new double[10];
 
@@ -9,22 +11,66 @@ double p_n, r_n, w_n, x_n, y_n, z_n;
 
 float ts = 0, nts = 0, fr = 0;
 
+interface ID
+{
+  char
+    NULL_PACKET_ID  = 0xff,
+    MESSAGE_ID      = 'm',
+    ORIENTATION_ID  = 'o';
+};
+
+interface ACTION
+{
+  char
+    INACTIVE    = 0,
+    CALIBRATING = 1,
+    ACTIVATING  = 2,
+    RUNNING     = 3;
+};
+
 void readFile() {
   reader = createReader("/Users/matthewfonken/Desktop/out.txt"); 
   String line = null;
   try {
     while ((line = reader.readLine()) != null ) {
+      //updateState("Connected.");
       String[] values = split(line, ',');
       //print("Reading: ");
       //printA(values);
       if (values.length <= 0 || values[0].length() <= 0) return;
       file_id = values[0].charAt(0);
-      if (file_id == 'f') {
-        assignFileValues(values);
+      switch( file_id )
+      {
+        case ID.ORIENTATION_ID:
+          updateState("Active.");
+          assignFileValues(values);
+          break;
+        case ID.MESSAGE_ID:
+          switch(action)
+          {
+           case ACTION.CALIBRATING:
+             int sc = int(trim(values[1]));
+             int ac = int(trim(values[2]));
+             int gc = int(trim(values[3]));
+             int mc = int(trim(values[4]));
+
+             updateState("Cal: " + "SYS-" + sc + " ACC" + ac + " GYR" + gc + " MAG" + mc);
+             break;
+           case ACTION.ACTIVATING:
+             updateState("Activating.");
+             break;
+           default:
+             break;
+          }
+          action = values[1].charAt(0);
+          break;
+        default:
+          break;
       }
     }
   } 
   catch(IOException e) {
+    updateState("Failed to connect.");
     e.printStackTrace();
   }
 }

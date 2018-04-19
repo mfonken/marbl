@@ -1,3 +1,5 @@
+String state_string = "Connecting...";
+
 int footer_width = 800;
 int footer_height = 130;
 int footer_inset = 10;
@@ -21,6 +23,11 @@ void initFooter() {
   x_lock = x;
   y_lock = y;
   z_lock = z;
+}
+
+void updateState( String s )
+{
+  state_string = "State: " + s;
 }
 
 void drawFooter() {
@@ -96,4 +103,7 @@ void drawCoordinateText(int text_x, float x_l, float y_l, float z_l) {
   text("X", (int)lerp(text_x, text_end, 0.16), text_y+32);
   text("Y", (int)lerp(text_x, text_end, 0.52), text_y+32);
   text("Z", (int)lerp(text_x, text_end, 0.86), text_y+32);
+  
+  textSize(16);
+  text(state_string, text_x, text_y-32);
 }
