@@ -1,3 +1,12 @@
+bool isPartiallyCalibrated(void)
+{
+    uint8_t system, gyro, accel, mag;
+    bno.getCalibration(&system, &gyro, &accel, &mag);
+    if (system < 3 || gyro < 3 || accel < 3 || mag < 3)
+        return false;
+    return true;
+}
+
 /**************************************************************************/
 /*
     Displays some basic information on this sensor from the unified
@@ -58,13 +67,13 @@ void displayCalStatus(void)
   system = gyro = accel = mag = 0;
   bno.getCalibration(&system, &gyro, &accel, &mag);
 
-  /* The data should be ignored until the system calibration is > 0 */
-  if (system) 
 #ifdef ALLOW_PACKET_TX
   txCalibration(system, accel, gyro, mag);
 #else
+  /* The data should be ignored until the system calibration is > 0 */
+//  if (system) 
 #ifdef MESSAGE_DEBUG
-Serial.print("\t");
+  Serial.print("\t");
   /* Display the individual values */
   Serial.print("Sys:");
   Serial.print(system, DEC);

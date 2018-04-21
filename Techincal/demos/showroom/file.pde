@@ -49,12 +49,13 @@ void readFile() {
           switch(action)
           {
            case ACTION.CALIBRATING:
+             if( values.length < 5 ) return;
              int sc = int(trim(values[1]));
-             int ac = int(trim(values[2]));
-             int gc = int(trim(values[3]));
+             int ac = int(trim(values[3]));
+             int gc = int(trim(values[2]));
              int mc = int(trim(values[4]));
 
-             updateState("Cal: " + "SYS-" + sc + " ACC" + ac + " GYR" + gc + " MAG" + mc);
+             updateState("SYS-" + sc + " ACC-" + ac + " GYR-" + gc + " MAG-" + mc);
              break;
            case ACTION.ACTIVATING:
              updateState("Activating.");
@@ -79,10 +80,12 @@ void assignFileValues(String[] values) {
   p_n = float(trim(values[1])) + HALF_PI;
   r_n = float(trim(values[2]));
   w_n = float(trim(values[3]));// - w_offset;
-
-  x_n = (double)float(trim(values[5])) * CM_TO_PIXELS;
-  y_n = (double)float(trim(values[4])) * CM_TO_PIXELS;
-  z_n = (double)float(trim(values[6])) * CM_TO_PIXELS;
+  if(values.length >= 7 )
+  {
+    x_n = (double)float(trim(values[5])) * CM_TO_PIXELS;
+    y_n = (double)float(trim(values[4])) * CM_TO_PIXELS;
+    z_n = (double)float(trim(values[6])) * CM_TO_PIXELS;
+  }
 
   p = smooth(p_n, p);
   r = smooth(r_n, r);

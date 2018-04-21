@@ -5,7 +5,7 @@
 #include <EEPROM.h>
 
 //#define SERIAL_DEBUG 0
-#define MESSAGE_DEBUG 0
+//#define MESSAGE_DEBUG 0
 #define ALLOW_PACKET_TX 0
 
 /* Set the delay between fresh samples */
@@ -15,16 +15,16 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
 typedef enum
 {
-    NULL_PACKET_ID  = 0xff,
-    MESSAGE_ID      = 'm',
-    ORIENTATION_ID  = 'o'
+  NULL_PACKET_ID  = 0xff,
+  MESSAGE_ID      = 'm',
+  ORIENTATION_ID  = 'o'
 } packet_id_t;
 
 typedef enum
 {
-    CALIBRATING = 1,
-    ACTIVATING,
-    RUNNING
+  CALIBRATING = 1,
+  ACTIVATING,
+  RUNNING
 } state_action_t;
 
 /**************************************************************************/
@@ -35,8 +35,19 @@ typedef enum
 void setup(void)
 {
   Serial.begin(9600);
+  bool restore_cal = false;
+
+  while (Serial.available() <= 0);
+  switch (Serial.read())
+  {
+    case 'r':
+      restore_cal = true;
+      break;
+    default:
+      break;
+  }
+  Serial.flush();
 #ifdef MESSAGE_DEBUG
-  while(Serial.available() <= 0);
 #else
   delay(2000);
 #endif
@@ -60,58 +71,61 @@ void setup(void)
   delay(10);
   writeReg8(0x42, 0x04); // P0
   delay(10);
-  
+
   int eeAddress = 0;
   long bnoID;
-  bool foundCalib = false;
-
-  EEPROM.get(eeAddress, bnoID);
-
-  adafruit_bno055_offsets_t calibrationData;
   sensor_t sensor;
+  
+  if ( restore_cal ) {
+    EEPROM.get(eeAddress, bnoID);
 
-  /*
-     Look for the sensor's unique ID at the beginning oF EEPROM.
-     This isn't foolproof, but it's better than nothing.
-  */
-  bno.getSensor(&sensor);
-  if (bnoID != sensor.sensor_id)
-  {
+    adafruit_bno055_offsets_t calibrationData;
+
+    /*
+       Look for the sensor's unique ID at the beginning oF EEPROM.
+       This isn't foolproof, but it's better than nothing.
+    */
+    bno.getSensor(&sensor);
+    if (bnoID != sensor.sensor_id)
+    {
 #ifdef MESSAGE_DEBUG
-    Serial.println("\nNo Calibration Data for this sensor exists in EEPROM");
+      Serial.println("\nNo Calibration Data for this sensor exists in EEPROM");
 #endif
-    delay(500);
-  }
-  else
-  {
+      delay(500);
+    }
+    else
+    {
 #ifdef MESSAGE_DEBUG
-    Serial.println("\nFound Calibration for this sensor in EEPROM.");
+      Serial.println("\nFound Calibration for this sensor in EEPROM.");
 #endif
-    eeAddress += sizeof(long);
-    EEPROM.get(eeAddress, calibrationData);
+      eeAddress += sizeof(long);
+      EEPROM.get(eeAddress, calibrationData);
 
-    displaySensorOffsets(calibrationData);
+#ifdef MESSAGE_DEBUG
+      displaySensorOffsets(calibrationData);
+#endif
+      Serial.println("\n\nRestoring Calibration data to the BNO055...");
+      bno.setSensorOffsets(calibrationData);
 
-    Serial.println("\n\nRestoring Calibration data to the BNO055...");
-    bno.setSensorOffsets(calibrationData);
+      Serial.println("\n\nCalibration data loaded into BNO055");
+    }
 
-    Serial.println("\n\nCalibration data loaded into BNO055");
-    foundCalib = true;
+    delay(1000);
   }
 
-  delay(1000);
-
+#ifdef MESSAGE_DEBUG
   /* Display some basic information on this sensor */
   displaySensorDetails();
 
   /* Optional: Display current status */
   displaySensorStatus();
+#endif
 
   bno.setExtCrystalUse(true);
 
   sensors_event_t event;
   bno.getEvent(&event);
-  if (foundCalib) {
+  if ( restore_cal ) {
 #ifdef MESSAGE_DEBUG
     Serial.println("Move sensor slightly to calibrate magnetometers");
 #endif
@@ -126,7 +140,7 @@ void setup(void)
 #ifdef MESSAGE_DEBUG
     Serial.println("Please Calibrate Sensor: ");
 #endif
-    while (!bno.isFullyCalibrated())
+    while (!isPartiallyCalibrated())//bno.isFullyCalibrated())
     {
       bno.getEvent(&event);
 #ifdef SERIAL_DEBUG
@@ -152,10 +166,12 @@ void setup(void)
   Serial.println("--------------------------------");
   Serial.println("Calibration Results: ");
 #endif
+
+  
   adafruit_bno055_offsets_t newCalib;
   bno.getSensorOffsets(newCalib);
-  displaySensorOffsets(newCalib);
 #ifdef MESSAGE_DEBUG
+  displaySensorOffsets(newCalib);
   Serial.println("\n\nStoring calibration data to EEPROM...");
 #endif
   eeAddress = 0;
@@ -195,8 +211,10 @@ void loop(void)
   //  imu::Vector<3> linear = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
 
   txTriplet( ORIENTATION_ID, euler.x(), euler.y(), euler.z() );
-//  txAlert( ACTIVATING );
+  //  txAlert( ACTIVATING );
   delay(BNO055_SAMPLERATE_DELAY_MS);
 }
+
+
 
 
