@@ -4,6 +4,8 @@
 #include <utility/imumaths.h>
 #include <EEPROM.h>
 
+#define USE_PARTIAL_CALIBRATION
+
 //#define SERIAL_DEBUG 0
 //#define MESSAGE_DEBUG 0
 #define ALLOW_PACKET_TX 0
@@ -13,11 +15,16 @@
 
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
+long reference_time = 0; 
+#define OFFSET_SAMPLES 10
+const byte offset_refresh_button = 4;
+
 typedef enum
 {
   NULL_PACKET_ID  = 0xff,
   MESSAGE_ID      = 'm',
-  ORIENTATION_ID  = 'o'
+  ORIENTATION_ID  = 'o',
+  OFFSET_ID       = 'r'
 } packet_id_t;
 
 typedef enum
@@ -34,9 +41,10 @@ typedef enum
 /**************************************************************************/
 void setup(void)
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   bool restore_cal = false;
-
+  pinMode(offset_refresh_button, INPUT);
+  
   while (Serial.available() <= 0);
   switch (Serial.read())
   {
@@ -47,6 +55,7 @@ void setup(void)
       break;
   }
   Serial.flush();
+
 #ifdef MESSAGE_DEBUG
 #else
   delay(2000);
@@ -65,7 +74,6 @@ void setup(void)
 #endif
     while (1);
   }
-
   /* Set BNO Config to P0 */
   writeReg8(0x41, 0x21); // P0
   delay(10);
@@ -187,8 +195,12 @@ void setup(void)
 
   Serial.println("\n--------------------------------\n");
 #endif
+
+  //attachInterrupt(digitalPinToInterrupt(offset_refresh_button), sendOffset, FALLING);
+  
   delay(500);
   txAlert( RUNNING );
+  reference_time = millis();
 }
 
 /**************************************************************************/
@@ -197,8 +209,8 @@ void setup(void)
     should go here)
 */
 /**************************************************************************/
-void loop(void)
-{
+void loop( void )
+{ 
   // Possible vector values can be:
   // - VECTOR_ACCELEROMETER - m/s^2
   // - VECTOR_MAGNETOMETER  - uT
@@ -213,8 +225,27 @@ void loop(void)
   txTriplet( ORIENTATION_ID, euler.x(), euler.y(), euler.z() );
   //  txAlert( ACTIVATING );
   delay(BNO055_SAMPLERATE_DELAY_MS);
+  if( ( millis() - reference_time ) > 5000 )
+  {
+    sendOffset();
+    reference_time = millis();
+  }
 }
 
-
-
+void sendOffset( void )
+{
+  imu::Vector<3> euler;
+  float samples[3] = {  0., 0., 0. };
+  for( int i = OFFSET_SAMPLES; i > 0; --i )
+  {
+    euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+    samples[0] += euler.x();
+    samples[1] += euler.y();
+    samples[2] += euler.z();
+  }
+  samples[0] /= OFFSET_SAMPLES;
+  samples[1] /= OFFSET_SAMPLES;
+  samples[2] /= OFFSET_SAMPLES;
+  txTriplet( OFFSET_ID, samples[0], samples[1], samples[2] );
+}
 

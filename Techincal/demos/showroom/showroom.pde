@@ -18,7 +18,7 @@ void setup() {
 }
 
 void draw() {
-  background(15);
+  background(backgroundImg);
   drawRoom();
   readFile();
   drawFooter();

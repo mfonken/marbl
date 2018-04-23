@@ -1,18 +1,21 @@
 PShape wall1, wall2, floor;
 PImage woodImg;
 PImage wall1Img, wall2Img;
+PImage backgroundImg;
 
 void initRoom() {
   noStroke();
-  woodImg = loadImage("dark_wood.jpg");
-  wall1Img = loadImage("concrete_a.jpg");
-  wall2Img = loadImage("concrete_a.jpg");
+  woodImg = loadImage("concrete_b.jpg");
+  wall1Img = loadImage("lightened_dark_wood.jpg");
+  wall2Img = loadImage("lightened_dark_wood.jpg");
   wall1 = createShape(RECT, 0, 0, roomX, roomZ);
   wall1.setTexture(wall1Img);
   wall2 = createShape(RECT, 0, 0, roomY, roomZ);
   wall2.setTexture(wall2Img);
   floor = createShape(RECT, 0, 0, roomX, roomY);
   floor.setTexture(woodImg);
+  
+  backgroundImg = loadImage("dark_triangles_1000_700.jpg");
 }
 
 void centerInRoom() {

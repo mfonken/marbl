@@ -25,7 +25,8 @@ interface ACTION
     INACTIVE    = 0,
     CALIBRATING = 1,
     ACTIVATING  = 2,
-    RUNNING     = 3;
+    RUNNING     = 3,
+    UPDATING    = 4;
 };
 
 void readFile() {
@@ -60,6 +61,9 @@ void readFile() {
            case ACTION.ACTIVATING:
              updateState("Activating.");
              break;
+           case ACTION.UPDATING:
+             updateState("Updating.");
+             break;
            default:
              break;
           }
@@ -79,7 +83,7 @@ void readFile() {
 void assignFileValues(String[] values) {
   p_n = float(trim(values[1])) + HALF_PI;
   r_n = float(trim(values[2]));
-  w_n = float(trim(values[3]));// - w_offset;
+  w_n = float(trim(values[3]));
   if(values.length >= 7 )
   {
     x_n = (double)float(trim(values[5])) * CM_TO_PIXELS;
