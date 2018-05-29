@@ -11,7 +11,7 @@ float rot_dial_length = 0;
 
 int footer_state = 0, footer_delay = 5;
 
-double p_lock, r_lock, w_lock, x_lock, y_lock, z_lock;
+float p_lock, r_lock, w_lock, x_lock, y_lock, z_lock;
 
 /* Color factor defaults */
 color text_color = color(245);
@@ -54,7 +54,7 @@ void drawFooter() {
   line( footer_x + rot_dial_end, height-footer_height + footer_inset +10, footer_x + rot_dial_end, height-(10 + footer_inset));
   line( footer_x + rot_dial_end + 10, height-footer_height/2-10 + footer_inset, footer_x+footer_width-10, height-footer_height/2 + footer_inset-10);
 
-  drawCoordinateText( (int)(footer_x + rot_dial_end ), (float)(x * PIXELS_TO_UNITS), (float)(y * PIXELS_TO_UNITS), (float)(z * PIXELS_TO_UNITS) );
+  drawCoordinateText( (int)(footer_x + rot_dial_end ), (float)(x), (float)(y), (float)(z) );
 
   if (footer_state <= footer_delay)
   {
@@ -112,15 +112,29 @@ void drawCoordinateText(int text_x, float x_l, float y_l, float z_l) {
   String x_s = str(x_l) + "00000", y_s = str(y_l) + "00000", z_s = str(z_l) + "00000";
   
   int text_width = 270, text_end = text_x+text_width, text_y = height-footer_height/4;
-  int digits = 5;
   
-  textSize(21);
+  //int digits = 5;
+  //textSize(21);
+  //float text_pos[] = {0.16, 0.51, 0.86};
+  
+  int digits = 7;
+  textSize(18);
+  float text_pos[] = {0.11, 0.46, 0.81};
+  
+  //int digits = 8;
+  //textSize(16);
+  //float text_pos[] = {0.12, 0.47, 0.82};
+  
+  //int digits = 10;
+  //textSize(12);
+  //float text_pos[] = {0.1, 0.45, 0.8};
+  
   fill(cA, cC, cB);
-  text(x_s.substring(0, digits), (int)lerp(text_x, text_end, 0.16), text_y);
+  text(x_s.substring(0, digits), (int)lerp(text_x, text_end, text_pos[0]), text_y);
   fill(cB, cA, cC);
-  text(y_s.substring(0, digits), (int)lerp(text_x, text_end, 0.51), text_y);
+  text(y_s.substring(0, digits), (int)lerp(text_x, text_end, text_pos[1]), text_y);
   fill(cC, cB, cA);
-  text(z_s.substring(0, digits), (int)lerp(text_x, text_end, 0.86), text_y);
+  text(z_s.substring(0, digits), (int)lerp(text_x, text_end, text_pos[2]), text_y);
 
   fill(text_color);
   text("X:", (int)lerp(text_x, text_end, 0.05), text_y);

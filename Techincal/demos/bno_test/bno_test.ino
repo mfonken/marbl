@@ -11,11 +11,12 @@
 #define ALLOW_PACKET_TX 0
 
 /* Set the delay between fresh samples */
-#define BNO055_SAMPLERATE_DELAY_MS (100)
+#define BNO055_SAMPLERATE_DELAY_MS (1)
 
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
+imu::Vector<3> euler;
 
-long reference_time = 0; 
+long reference_time = 0;
 #define OFFSET_SAMPLES 10
 const byte offset_refresh_button = 4;
 
@@ -44,7 +45,7 @@ void setup(void)
   Serial.begin(115200);
   bool restore_cal = false;
   pinMode(offset_refresh_button, INPUT);
-  
+
   while (Serial.available() <= 0);
   switch (Serial.read())
   {
@@ -83,7 +84,7 @@ void setup(void)
   int eeAddress = 0;
   long bnoID;
   sensor_t sensor;
-  
+
   if ( restore_cal ) {
     EEPROM.get(eeAddress, bnoID);
 
@@ -175,7 +176,7 @@ void setup(void)
   Serial.println("Calibration Results: ");
 #endif
 
-  
+
   adafruit_bno055_offsets_t newCalib;
   bno.getSensorOffsets(newCalib);
 #ifdef MESSAGE_DEBUG
@@ -197,7 +198,7 @@ void setup(void)
 #endif
 
   //attachInterrupt(digitalPinToInterrupt(offset_refresh_button), sendOffset, FALLING);
-  
+
   delay(500);
   txAlert( RUNNING );
   reference_time = millis();
@@ -210,7 +211,7 @@ void setup(void)
 */
 /**************************************************************************/
 void loop( void )
-{ 
+{
   // Possible vector values can be:
   // - VECTOR_ACCELEROMETER - m/s^2
   // - VECTOR_MAGNETOMETER  - uT
@@ -219,24 +220,41 @@ void loop( void )
   // - VECTOR_LINEARACCEL   - m/s^2
   // - VECTOR_GRAVITY       - m/s^2
 
-  imu::Vector<3> euler  = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-  //  imu::Vector<3> linear = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-
-  txTriplet( ORIENTATION_ID, euler.x(), euler.y(), euler.z() );
-  //  txAlert( ACTIVATING );
-  delay(BNO055_SAMPLERATE_DELAY_MS);
-  if( ( millis() - reference_time ) > 5000 )
-  {
+  /*
+    if( ( millis() - reference_time ) > 5000 )
+    {
     sendOffset();
     reference_time = millis();
+    }
+  */
+  
+  if ( Serial.available() > 0 )
+  {
+    switch ( Serial.read() )
+    {
+      case 'c':
+        delay(10);
+        sendOffset();
+        delay(500);
+        break;
+      case 'o':
+        euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+        //  imu::Vector<3> linear = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+        txTriplet( ORIENTATION_ID, euler.x(), euler.y(), euler.z() );
+        delay(BNO055_SAMPLERATE_DELAY_MS);
+      default:
+        break;
+    }
+    Serial.flush();
   }
+  
 }
 
 void sendOffset( void )
 {
   imu::Vector<3> euler;
   float samples[3] = {  0., 0., 0. };
-  for( int i = OFFSET_SAMPLES; i > 0; --i )
+  for ( int i = OFFSET_SAMPLES; i > 0; --i )
   {
     euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
     samples[0] += euler.x();

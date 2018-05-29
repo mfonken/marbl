@@ -22,10 +22,11 @@ void initGeneral() {
 }
 
 void updateAll() {
-  translate( (float)x, (float)y, (float)z );
-  rotateZ((float)(-w + HALF_PI));
-  rotateY((float)(-p + HALF_PI));
-  rotateX((float)( r)); 
+  float tx = x * UNITS_TO_PIXELS, ty = y * UNITS_TO_PIXELS, tz = z * UNITS_TO_PIXELS;
+  translate( tx, ty, tz );
+  rotateZ( (float)( -w + HALF_PI));
+  rotateY( (float)( -p ));
+  rotateX( (float)( r )); 
 }
 
 void center() {

@@ -21,6 +21,7 @@ void draw() {
   background(backgroundImg);
   drawRoom();
   readFile();
+  readRatesFile();
   drawFooter();
   drawBeacons();
   

@@ -5,8 +5,8 @@ PImage ballImg;
 float pos_scale = 30;
 
 float theta;
-double x = 0, y = 0, z = 0;
-double p = 0, r = 0, w = 0;
+float x = 0, y = 0, z = 0;
+float p = 0, r = 0, w = 0;
 
 float w_offset = 0;
 

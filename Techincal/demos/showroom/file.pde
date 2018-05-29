@@ -3,11 +3,12 @@ BufferedReader reader;
 
 char action = ACTION.INACTIVE;
 char file_id = ' ';
-double [] file_values = new double[10];
+float [] file_values = new float[10];
 
-double CM_TO_PIXELS = UNITS_TO_PIXELS/100;
+float MM_TO_PIXELS = UNITS_TO_PIXELS/1000;
+//float PIXELS_TO_CM = 1/CM_TO_PIXELS;
 
-double p_n, r_n, w_n, x_n, y_n, z_n;
+float p_n, r_n, w_n, x_n, y_n, z_n;
 
 float ts = 0, nts = 0, fr = 0;
 
@@ -81,14 +82,14 @@ void readFile() {
 }
 
 void assignFileValues(String[] values) {
-  p_n = float(trim(values[1])) + HALF_PI;
+  p_n = float(trim(values[1]));
   r_n = float(trim(values[2]));
   w_n = float(trim(values[3]));
   if(values.length >= 7 )
   {
-    x_n = (double)float(trim(values[5])) * CM_TO_PIXELS;
-    y_n = (double)float(trim(values[4])) * CM_TO_PIXELS;
-    z_n = (double)float(trim(values[6])) * CM_TO_PIXELS;
+    x_n = (float)float(trim(values[4]));
+    y_n = (float)float(trim(values[5]));
+    z_n = -(float)float(trim(values[6]));
   }
 
   p = smooth(p_n, p);
@@ -105,13 +106,13 @@ void assignFileValues(String[] values) {
   }
   stroke(255);
   textSize(18);
-  text(str(fr).substring(0, 2) + " FPS", 0, 18);
+  text("SYS:" + str(fr).substring(0, 2) + " FPS", 0, 18);
   ts = nts;
 }
 
-double smooth(double a, double b) {
-  if (Double.isNaN(a)) a = 100;
-  if (Double.isNaN(b)) b = 100;
+float smooth(float a, float b) {
+  if (Float.isNaN(a)) a = 100;
+  if (Float.isNaN(b)) b = 100;
   return (3*b+a)/4;
 
   //return a;

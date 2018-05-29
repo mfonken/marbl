@@ -6,9 +6,9 @@ PImage beaconImg;
 color case_color = color(155, 150, 155);
 int case_radius = 30, case_height = 60;
 
-float UNITS_TO_PIXELS = 4000;
+float UNITS_TO_PIXELS = 3;
 float PIXELS_TO_UNITS = 1/ UNITS_TO_PIXELS;
-float beacons_distance_UNITS = 0.05;
+float beacons_distance_UNITS = 57;
 int beacons_distance = 0;
 int beacons_x = roomX/4, beacons_y = roomY/2;
 int Ax, Ay, Az, Bx, By;

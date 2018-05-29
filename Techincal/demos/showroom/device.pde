@@ -2,7 +2,7 @@ color device_color = color(85, 85, 85);
 int device_radius = 32, device_length = 700;
 float point = 1.5;
 
-int ddA = 145, ddB = 85, ddC = 45;
+int ddA = 15, ddB = 15, ddC = 15;
 int dL = ( max(ddA, ddB, ddC) + min(ddA, ddB, ddC) ) / 2;
 float dsat = 0.4;
 float fade_factor = 50;
@@ -65,12 +65,15 @@ void drawCoordinateLines() {
   center();
   translate(Ax, Ay, Az);
   stroke(255, 100, 200);
-  line(0, 0, 0, (float)x, 0, 0); 
+  
+  float tx = x * UNITS_TO_PIXELS, ty = y * UNITS_TO_PIXELS, tz = z * UNITS_TO_PIXELS;
+  
+  line(0, 0, 0, tx, 0, 0); 
 
   stroke(200, 255, 100);
-  line((float)x, (float)y, 0, (float)x, 0, 0); 
+  line(tx, ty, 0, tx, 0, 0); 
 
   stroke(100, 200, 255);
-  line((float)x, (float)y, 0, (float)x, (float)y, (float)z); 
+  line(tx, ty, 0, tx, ty, tz); 
   popMatrix();
 }
